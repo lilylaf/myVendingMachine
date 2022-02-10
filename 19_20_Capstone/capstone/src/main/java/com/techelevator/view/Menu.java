@@ -10,15 +10,25 @@ public class Menu {
 	private PrintWriter out;
 	private Scanner in;
 
-	public Menu(InputStream input, OutputStream output) {
+	public Menu(InputStream input, OutputStream output) { //constructor for the Menu class
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
 	}
 
-	public Object getChoiceFromOptions(Object[] options) {
+	public Object getChoiceFromOptions(Object[] options) { //Object data type can be any data type
 		Object choice = null;
 		while (choice == null) {
+			//System.out.println("Selection cannot be completed"); //We added this. Is it good?***********
 			displayMenuOptions(options);
+			choice = getChoiceFromUserInput(options);
+		}
+		return choice;
+	}
+
+	public Object getChoiceFromOptionsNoDisplay(Object[] options) { //Object data type can be any data type
+		Object choice = null;
+		while (choice == null) {
+			//System.out.println("Selection cannot be completed"); //We added this. Is it good?***********
 			choice = getChoiceFromUserInput(options);
 		}
 		return choice;
@@ -26,7 +36,7 @@ public class Menu {
 
 	private Object getChoiceFromUserInput(Object[] options) {
 		Object choice = null;
-		String userInput = in.nextLine();
+		String userInput = in.nextLine(); //is this allowed??????
 		try {
 			int selectedOption = Integer.valueOf(userInput);
 			if (selectedOption > 0 && selectedOption <= options.length) {
