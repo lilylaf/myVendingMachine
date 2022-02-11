@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 public class Product {
@@ -8,8 +9,8 @@ public class Product {
     private String name;
     public String getName(){return name;}
 
-    private double price;
-    public double getPrice(){
+    private BigDecimal price;
+    public BigDecimal getPrice(){
         return price;
     }
 
@@ -23,9 +24,12 @@ public class Product {
     public int getQuantity(){
         return quantity;
     }
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
 
     //constructors
-    public Product(String name, double price, String type){
+    public Product(String name, BigDecimal price, String type){
         this.name = name;
         this.price = price;
         this.type = type;
