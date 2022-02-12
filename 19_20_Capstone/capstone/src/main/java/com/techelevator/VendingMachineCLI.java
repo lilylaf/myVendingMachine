@@ -4,6 +4,7 @@ import com.techelevator.view.Menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Scanner;
@@ -32,6 +33,7 @@ public class VendingMachineCLI {
 
 	public void run() {
 		VendingMachine myVendingMachine = scanningFileToGetOptions();
+		Audit vMAudit = new Audit();
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
@@ -46,17 +48,26 @@ public class VendingMachineCLI {
 						System.out.println("Please insert dollar bills:");
 						String strDeposit = inputScanner.nextLine();
 						myVendingMachine.depositMoney(strDeposit);
-						//method call
 					} else if (choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)){
 						System.out.println("Please select a product");
 						String strSelection = inputScanner.nextLine();
 						myVendingMachine.selectProduct(strSelection);
 					} else if (choice.equals(PURCHASE_MENU_OPTION_FINISH_PURCHASE)){
 						myVendingMachine.finishTransaction();
+						writeAuditFile(myVendingMachine.returnAudits());
 						endTransaction = true;
 					}
 				}
 			}
+		}
+	}
+	public static void writeAuditFile(String auditString){
+		File auditFile = new File("exampleFiles/AuditFile.txt");
+		try(PrintWriter pw = new PrintWriter(auditFile)) {
+			pw.print(auditString);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 

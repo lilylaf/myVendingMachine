@@ -10,6 +10,7 @@ public class VendingMachine {
 
     //ArrayList of products
     private Map<String, Product> mapOfProducts = new HashMap();
+
     public Map<String, Product> getMapOfProducts(){
         return mapOfProducts;
     }
@@ -18,7 +19,36 @@ public class VendingMachine {
     }
 
     private BigDecimal userBalance = BigDecimal.valueOf(0); //will be updated when depositing, purchasing, and getting change
+    public BigDecimal getUserBalance() {
+        return userBalance;
+    }
 
+    private List<Audit> auditList = new ArrayList();
+    public void addToAuditList(Audit a){
+        auditList.add(a);
+    }
+
+    public String returnAudits (){
+        String strReturnAudits = "";
+        for(Audit a : auditList){
+            strReturnAudits += a + "\n";
+        }
+        return strReturnAudits;
+    }
+
+    //pass items for Audit as strings
+    public String getDepositMoney(String userChoice){
+        int intDeposit = Integer.valueOf(userChoice);
+        return String.format("%.2f", BigDecimal.valueOf(intDeposit));
+    }
+
+    public String getNameAndButton(String userChoice){
+        return this.buttonSelection(userChoice).getName() + " " + userChoice.toUpperCase();
+    }
+
+    public String getPriceOfProduct(String userChoice) {
+        return String.valueOf(this.buttonSelection(userChoice).getPrice());
+    }
 
     //method user depositing money into vending machine
     public void depositMoney(String userChoice){
@@ -28,6 +58,7 @@ public class VendingMachine {
             intBalance +=intDeposit;
             userBalance = BigDecimal.valueOf(intBalance);
             System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
+            this.addToAuditList(new Audit("FEED MONEY:", getDepositMoney(userChoice), String.format("%.2f", userBalance)));
         }catch (NumberFormatException e) {
             System.out.println(System.lineSeparator() + "*** " + userChoice + " is not a valid option ***" + System.lineSeparator());
             System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
@@ -45,14 +76,14 @@ public class VendingMachine {
         return null;
     }
     //method selecting item
-    public void selectProduct(String userSelection){ //look at this later
+    public void selectProduct(String userInput){ //look at this later
         //remove loop - call buttonSelection.get etc...
-        if (buttonSelection(userSelection).getQuantity() == 0){  //product sold out
+        if (buttonSelection(userInput).getQuantity() == 0){  //product sold out
                 System.out.println("SOLD OUT");
-        } else if (buttonSelection((userSelection)).getPrice().compareTo(userBalance) == -1 ||
-                buttonSelection((userSelection)).getPrice().compareTo(userBalance) == 0){ //if price of product is <= userBalance
-                completeAPurchase(userSelection);
-        } else if (buttonSelection(userSelection).getPrice().compareTo(userBalance) == 1){ //price of product is > userBalance
+        } else if (buttonSelection((userInput)).getPrice().compareTo(userBalance) == -1 ||
+                buttonSelection((userInput)).getPrice().compareTo(userBalance) == 0){ //if price of product is <= userBalance
+                completeAPurchase(userInput);
+        } else if (buttonSelection(userInput).getPrice().compareTo(userBalance) == 1){ //price of product is > userBalance
                 System.out.println("Please deposit more money, or select a different product");
         }
     }
@@ -60,6 +91,8 @@ public class VendingMachine {
     public void completeAPurchase(String userInput){
         //update customer balance after purchase is selected
         userBalance =  userBalance.subtract(buttonSelection(userInput).getPrice());
+        this.addToAuditList(new Audit(getNameAndButton(userInput), getPriceOfProduct(userInput),getUserBalance().toString()));
+
         //adjust inventory of item
         buttonSelection(userInput).setQuantity(buttonSelection(userInput).getQuantity() - 1);
         //dispense item and display our cheesy message
@@ -79,7 +112,7 @@ public class VendingMachine {
     public void finishTransaction(){
         //when customer selects finish, print "Thank you for your purchase. Your change is $" +  userBalance
         System.out.println("Thank you for your business. Your change due $" + String.format("%.2f", userBalance));
-
+        this.addToAuditList(new Audit("GIVE CHANGE:", getUserBalance().toString(),  "0.00"));
         BigDecimal tempBalance = userBalance;
 
         BigDecimal removeQuarters = tempBalance.divide(BigDecimal.valueOf(.25));
@@ -93,7 +126,6 @@ public class VendingMachine {
         BigDecimal totalNickles = tempBalance.divide(BigDecimal.valueOf(.05));
 
         System.out.println("quarters: " + quartersTotal  + ", dimes: " + dimesTotal + ", nickles: " + totalNickles);
-
         userBalance = BigDecimal.valueOf(0.0);
     }
 
