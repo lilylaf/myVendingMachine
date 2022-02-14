@@ -28,7 +28,7 @@ public class VendingMachineCLI {
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
-	} //what is this doing
+	}
 
 
 	public void run() {
@@ -37,13 +37,14 @@ public class VendingMachineCLI {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
-				System.out.println(myVendingMachine);
+				System.out.println(myVendingMachine); // display vending machine items
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) { //if our customer selects the purchase menu
-				boolean endTransaction = false;					//how we will end our purchase menu
+				boolean endTransaction = false;	 //how we will end our purchase menu
+
 				while(!endTransaction){
 					System.out.println(scanningFileToGetOptions());
 					choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+
 					if(choice.equals(PURCHASE_MENU_OPTION_DEPOSIT_MONEY)){
 						System.out.println("Please insert dollar bills:");
 						String strDeposit = inputScanner.nextLine();
@@ -61,7 +62,8 @@ public class VendingMachineCLI {
 			}
 		}
 	}
-	public static void writeAuditFile(String auditString){
+
+	public static void writeAuditFile(String auditString){ //unit test WIP
 		File auditFile = new File("exampleFiles/AuditFile.txt");
 		try(PrintWriter pw = new PrintWriter(auditFile)) {
 			pw.print(auditString);
@@ -72,7 +74,7 @@ public class VendingMachineCLI {
 	}
 
 
-	public static VendingMachine scanningFileToGetOptions(){ //return a map
+	public static VendingMachine scanningFileToGetOptions(){
 		File vendingMachine = new File("exampleFiles/VendingMachine.txt");
 		VendingMachine myVM = new VendingMachine();
 		try(Scanner scanMyFile = new Scanner(vendingMachine)){

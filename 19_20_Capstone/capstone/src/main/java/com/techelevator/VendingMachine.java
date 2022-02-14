@@ -28,7 +28,7 @@ public class VendingMachine {
         auditList.add(a);
     }
 
-    public String returnAudits (){
+    public String returnAudits (){ //unit tests done
         String strReturnAudits = "";
         for(Audit a : auditList){
             strReturnAudits += a + "\n";
@@ -37,9 +37,13 @@ public class VendingMachine {
     }
 
     //pass items for Audit as strings
-    public String getDepositMoney(String userChoice){
+    public String getDepositMoney(String userChoice){ //unit tests done
         int intDeposit = Integer.valueOf(userChoice);
-        return String.format("%.2f", BigDecimal.valueOf(intDeposit));
+        if(intDeposit >= 0){
+            return String.format("%.2f", BigDecimal.valueOf(intDeposit));
+        } else {
+            return "please input a valid dollar amount";
+        }
     }
 
     public String getNameAndButton(String userChoice){
@@ -51,21 +55,25 @@ public class VendingMachine {
     }
 
     //method user depositing money into vending machine
-    public void depositMoney(String userChoice){
+    public void depositMoney(String userChoice){ //unit tests done
         int intBalance = 0;
         try {
             int intDeposit = Integer.valueOf(userChoice);
             intBalance +=intDeposit;
-            userBalance = BigDecimal.valueOf(intBalance);
-            System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
-            this.addToAuditList(new Audit("FEED MONEY:", getDepositMoney(userChoice), String.format("%.2f", userBalance)));
+            if (intBalance > 0) {
+                userBalance = BigDecimal.valueOf(intBalance);
+                System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
+                this.addToAuditList(new Audit("FEED MONEY:", getDepositMoney(userChoice), String.format("%.2f", userBalance)));
+            } else {
+                System.out.println("Please enter a valid dollar amount");
+            }
         }catch (NumberFormatException e) {
             System.out.println(System.lineSeparator() + "*** " + userChoice + " is not a valid option ***" + System.lineSeparator());
             System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
         }
     }
     //method checking user button selection
-    public Product buttonSelection(String userInput){
+    public Product buttonSelection(String userInput){ //todo --> try to figure out why this unit test won't work the way I want it to
         try {
             return mapOfProducts.get(userInput.toUpperCase());
         } catch (Exception e) {
@@ -76,8 +84,7 @@ public class VendingMachine {
         return null;
     }
     //method selecting item
-    public void selectProduct(String userInput){ //look at this later
-        //remove loop - call buttonSelection.get etc...
+    public void selectProduct(String userInput){ //unit test WIP
         if (buttonSelection(userInput).getQuantity() == 0){  //product sold out
                 System.out.println("SOLD OUT");
         } else if (buttonSelection((userInput)).getPrice().compareTo(userBalance) == -1 ||
@@ -88,7 +95,7 @@ public class VendingMachine {
         }
     }
 
-    public void completeAPurchase(String userInput){
+    public void completeAPurchase(String userInput){ //unit test WIP
         //update customer balance after purchase is selected
         userBalance =  userBalance.subtract(buttonSelection(userInput).getPrice());
         this.addToAuditList(new Audit(getNameAndButton(userInput), getPriceOfProduct(userInput),getUserBalance().toString()));
@@ -109,7 +116,7 @@ public class VendingMachine {
         System.out.format("Your current balance is: $" + String.format("%.2f", userBalance) + System.lineSeparator());
     }
 
-    public void finishTransaction(){
+    public void finishTransaction(){ //unit test WIP
         //when customer selects finish, print "Thank you for your purchase. Your change is $" +  userBalance
         System.out.println("Thank you for your business. Your change due $" + String.format("%.2f", userBalance));
         this.addToAuditList(new Audit("GIVE CHANGE:", getUserBalance().toString(),  "0.00"));

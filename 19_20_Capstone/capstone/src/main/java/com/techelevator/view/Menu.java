@@ -25,18 +25,18 @@ public class Menu {
 		return choice;
 	}
 
-	public Object getChoiceFromOptionsNoDisplay(Object[] options) { //Object data type can be any data type
-		Object choice = null;
-		while (choice == null) {
-			//System.out.println("Selection cannot be completed"); //We added this. Is it good?***********
-			choice = getChoiceFromUserInput(options);
-		}
-		return choice;
-	}
+//	public Object getChoiceFromOptionsNoDisplay(Object[] options) { //Object data type can be any data type
+//		Object choice = null;
+//		while (choice == null) {
+//			//System.out.println("Selection cannot be completed"); //We added this. Is it good?***********
+//			choice = getChoiceFromUserInput(options);
+//		}
+//		return choice;
+//	}
 
 	private Object getChoiceFromUserInput(Object[] options) {
 		Object choice = null;
-		String userInput = in.nextLine(); //is this allowed??????
+		String userInput = in.nextLine();
 		try {
 			int selectedOption = Integer.valueOf(userInput);
 			if (selectedOption > 0 && selectedOption <= options.length) {

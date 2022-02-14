@@ -46,11 +46,11 @@ public class Audit {
 
    //methods
 
-    //we have the local date and time, now we need to link it to other data
-    public void setDateAndTime (){
+    public void setDateAndTime (){ //todo --> can't figure out how to get this test to work
         DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh.mm.ss aa");
         dateAndTime = dateFormat2.format(new Date()).toString();
     }
+
 
     @Override
     public String toString() {
