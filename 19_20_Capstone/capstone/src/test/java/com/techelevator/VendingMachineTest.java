@@ -3,11 +3,8 @@ package com.techelevator;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VendingMachineTest {
 
@@ -44,7 +41,7 @@ public class VendingMachineTest {
         int intDeposit = 2;
         //act
         String expected = "2.00";
-        String actual = testVM.getDepositMoney("2");
+        String actual = testVM.depositMoneyForAudit("2");
         //assert
         Assert.assertEquals("should display formatted big decimal of intDeposit", expected,actual);
     }
@@ -55,7 +52,7 @@ public class VendingMachineTest {
         int intDeposit = -2;
         //act
         String expected = "please input a valid dollar amount";
-        String actual = testVM.getDepositMoney("-2");
+        String actual = testVM.depositMoneyForAudit("-2");
         //assert
         Assert.assertEquals("insert message here", expected,actual);
     }

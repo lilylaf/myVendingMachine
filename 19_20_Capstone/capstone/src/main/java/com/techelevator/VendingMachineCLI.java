@@ -30,7 +30,7 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
-
+	//running through our menu options
 	public void run() {
 		VendingMachine myVendingMachine = scanningFileToGetOptions();
 		Audit vMAudit = new Audit();
@@ -63,6 +63,7 @@ public class VendingMachineCLI {
 		}
 	}
 
+	//create and write audit file
 	public static void writeAuditFile(String auditString){ //unit test WIP
 		File auditFile = new File("exampleFiles/AuditFile.txt");
 		try(PrintWriter pw = new PrintWriter(auditFile)) {
@@ -73,8 +74,8 @@ public class VendingMachineCLI {
 		}
 	}
 
-
-	public static VendingMachine scanningFileToGetOptions(){
+	//scanning our products file and importing info
+	public static VendingMachine scanningFileToGetOptions(){ //unit test WIP
 		File vendingMachine = new File("exampleFiles/VendingMachine.txt");
 		VendingMachine myVM = new VendingMachine();
 		try(Scanner scanMyFile = new Scanner(vendingMachine)){
@@ -82,7 +83,6 @@ public class VendingMachineCLI {
 				String line = scanMyFile.nextLine();
 				String [] productsFromFile = line.split("\\|");
 				myVM.addToMap(productsFromFile[0], new Product(productsFromFile[1], BigDecimal.valueOf(Double.parseDouble(productsFromFile[2])), productsFromFile[3]));
-				//create instance of Vending Machine
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -90,6 +90,7 @@ public class VendingMachineCLI {
 		return myVM;
 	}
 
+	//main
 	public static void main(String[] args) {
 
 		Menu menu = new Menu(System.in, System.out);

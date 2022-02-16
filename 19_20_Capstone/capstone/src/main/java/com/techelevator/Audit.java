@@ -1,10 +1,7 @@
 package com.techelevator;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Audit {
@@ -32,9 +29,9 @@ public class Audit {
         return  balance;
     }
 
-    //constructor
+    //constructors
     public Audit(String action, String deposit, String balance) {
-        setDateAndTime();
+        findDateAndTime();
         this.action = action;
         this.deposit = deposit;
         this.balance = balance;
@@ -44,9 +41,8 @@ public class Audit {
 
     }
 
-   //methods
-
-    public void setDateAndTime (){ //todo --> can't figure out how to get this test to work
+   //formatting our date and time
+    public void findDateAndTime(){ //unit test WIP
         DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh.mm.ss aa");
         dateAndTime = dateFormat2.format(new Date()).toString();
     }

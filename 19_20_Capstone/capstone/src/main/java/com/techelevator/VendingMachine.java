@@ -1,7 +1,5 @@
 package com.techelevator;
 
-import com.sun.source.tree.Tree;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -28,6 +26,11 @@ public class VendingMachine {
         auditList.add(a);
     }
 
+    public String getPriceOfProduct(String userChoice) {
+        return String.valueOf(this.buttonSelection(userChoice).getPrice());
+    }
+
+    //returns String of our ArrayList of audits
     public String returnAudits (){ //unit tests done
         String strReturnAudits = "";
         for(Audit a : auditList){
@@ -37,21 +40,13 @@ public class VendingMachine {
     }
 
     //pass items for Audit as strings
-    public String getDepositMoney(String userChoice){ //unit tests done
+    public String depositMoneyForAudit(String userChoice){ //unit tests done
         int intDeposit = Integer.valueOf(userChoice);
         if(intDeposit >= 0){
             return String.format("%.2f", BigDecimal.valueOf(intDeposit));
         } else {
             return "please input a valid dollar amount";
         }
-    }
-
-    public String getNameAndButton(String userChoice){
-        return this.buttonSelection(userChoice).getName() + " " + userChoice.toUpperCase();
-    }
-
-    public String getPriceOfProduct(String userChoice) {
-        return String.valueOf(this.buttonSelection(userChoice).getPrice());
     }
 
     //method user depositing money into vending machine
@@ -63,7 +58,7 @@ public class VendingMachine {
             if (intBalance > 0) {
                 userBalance = BigDecimal.valueOf(intBalance);
                 System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
-                this.addToAuditList(new Audit("FEED MONEY:", getDepositMoney(userChoice), String.format("%.2f", userBalance)));
+                this.addToAuditList(new Audit("FEED MONEY:", depositMoneyForAudit(userChoice), String.format("%.2f", userBalance)));
             } else {
                 System.out.println("Please enter a valid dollar amount");
             }
@@ -72,8 +67,9 @@ public class VendingMachine {
             System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
         }
     }
+
     //method checking user button selection
-    public Product buttonSelection(String userInput){ //todo --> try to figure out why this unit test won't work the way I want it to
+    public Product buttonSelection(String userInput){ //unit test WIP
         try {
             return mapOfProducts.get(userInput.toUpperCase());
         } catch (Exception e) {
@@ -83,6 +79,12 @@ public class VendingMachine {
         }
         return null;
     }
+
+    //gets the name of product from user input of the button
+    public String nameFromButton(String userChoice){
+        return this.buttonSelection(userChoice).getName() + " " + userChoice.toUpperCase();
+    }
+
     //method selecting item
     public void selectProduct(String userInput){ //unit test WIP
         if (buttonSelection(userInput).getQuantity() == 0){  //product sold out
@@ -95,16 +97,15 @@ public class VendingMachine {
         }
     }
 
+    //updates balance after purchase, add action to audit list, adjust inventory of item, dispense item and display message
     public void completeAPurchase(String userInput){ //unit test WIP
-        //update customer balance after purchase is selected
         userBalance =  userBalance.subtract(buttonSelection(userInput).getPrice());
-        this.addToAuditList(new Audit(getNameAndButton(userInput), getPriceOfProduct(userInput),getUserBalance().toString()));
+        this.addToAuditList(new Audit(nameFromButton(userInput), getPriceOfProduct(userInput),getUserBalance().toString()));
 
-        //adjust inventory of item
         buttonSelection(userInput).setQuantity(buttonSelection(userInput).getQuantity() - 1);
-        //dispense item and display our cheesy message
+
         System.out.println(buttonSelection(userInput).getName() + " has been dispensed.");
-        if(buttonSelection(userInput).getType().equals("Chip")){ //candy drink and gum
+        if(buttonSelection(userInput).getType().equals("Chip")){
             System.out.println("Crunch Crunch, Yum!");
         } else if(buttonSelection(userInput).getType().equals("Candy")){
             System.out.println("Munch Munch, Yum!");
@@ -116,8 +117,8 @@ public class VendingMachine {
         System.out.format("Your current balance is: $" + String.format("%.2f", userBalance) + System.lineSeparator());
     }
 
+    //adds action to audit list, calculate change, dispense change, set balance back to 0
     public void finishTransaction(){ //unit test WIP
-        //when customer selects finish, print "Thank you for your purchase. Your change is $" +  userBalance
         System.out.println("Thank you for your business. Your change due $" + String.format("%.2f", userBalance));
         this.addToAuditList(new Audit("GIVE CHANGE:", getUserBalance().toString(),  "0.00"));
         BigDecimal tempBalance = userBalance;
@@ -136,7 +137,8 @@ public class VendingMachine {
         userBalance = BigDecimal.valueOf(0.0);
     }
 
-    //our vending machine has buttons, but our product has a button value assigned
+
+    //formatting for our toString
     @Override
     public String toString(){ //googled how to format a string in java to get the formatting for our map
         String s = "";

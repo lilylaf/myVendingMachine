@@ -32,4 +32,16 @@ public class VendingMachineCLITest {
 //        //assert
 //        Assert.assertEquals();
     }
+
+//    @Test //null file
+//    public void test_for_scanningFileToGetOptions_null_file(){
+//        //arrange
+//        VendingMachine testVM = new VendingMachine();
+//        VendingMachineCLI cli = new VendingMachineCLI(new Menu(System.in, System.out));
+//        File testFile = null;
+//        //act
+//        cli.scanningFileToGetOptions();
+//        //assert
+//        Assert.assertEquals(cli.scanningFileToGetOptions(), null);
+//    }
 }

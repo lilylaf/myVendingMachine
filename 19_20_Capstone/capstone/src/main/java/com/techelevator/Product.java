@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class Product {
 
-    //initializing variables get & set
     private String name;
     public String getName(){return name;}
 
@@ -19,7 +18,6 @@ public class Product {
         return type;
     }
 
-    //what should our initial quantity be?
     private int quantity;
     public int getQuantity(){
         return quantity;
@@ -28,7 +26,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    //constructors
+    //constructor
     public Product(String name, BigDecimal price, String type){
         this.name = name;
         this.price = price;
@@ -36,7 +34,6 @@ public class Product {
         this.quantity = 5;
     }
 
-    //methods
 
     //possibly a toString
     @Override
