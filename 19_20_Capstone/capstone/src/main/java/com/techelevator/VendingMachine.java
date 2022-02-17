@@ -71,11 +71,14 @@ public class VendingMachine {
     //method checking user button selection
     public Product buttonSelection(String userInput){ //unit test WIP
         try {
-            return mapOfProducts.get(userInput.toUpperCase());
-        } catch (Exception e) {
-            //e.printStackTrace();
-            e.getMessage();
-            System.out.println("***not valid choice selection***");
+            if(userInput.toUpperCase().equals(mapOfProducts.get(userInput))){
+                return mapOfProducts.get(userInput.toUpperCase());
+            } else {
+               System.out.println("Please enter a valid selection");
+            }
+        } catch (Exception e) { //is there a way to do this without stopping our program all together?
+            System.out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
+            System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
         }
         return null;
     }

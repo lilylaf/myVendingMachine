@@ -35,15 +35,15 @@ public class VendingMachineCLI {
 		VendingMachine myVendingMachine = scanningFileToGetOptions();
 		Audit vMAudit = new Audit();
 		while (true) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS); //displays our array of options in our main menu
+			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) { //if they select display items
 				System.out.println(myVendingMachine); // display vending machine items
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) { //if our customer selects the purchase menu
 				boolean endTransaction = false;	 //how we will end our purchase menu
 
 				while(!endTransaction){
 					System.out.println(scanningFileToGetOptions());
-					choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+					choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS); //getting options from our purchase menu
 
 					if(choice.equals(PURCHASE_MENU_OPTION_DEPOSIT_MONEY)){
 						System.out.println("Please insert dollar bills:");
@@ -68,7 +68,7 @@ public class VendingMachineCLI {
 		File auditFile = new File("exampleFiles/AuditFile.txt");
 		try(PrintWriter pw = new PrintWriter(auditFile)) {
 			pw.print(auditString);
-			pw.close();
+			pw.close(); //we aren't using this, so how is the pw closing?
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -76,9 +76,9 @@ public class VendingMachineCLI {
 
 	//scanning our products file and importing info
 	public static VendingMachine scanningFileToGetOptions(){ //unit test WIP
-		File vendingMachine = new File("exampleFiles/VendingMachine.txt");
+		File vendingMachineFile = new File("exampleFiles/VendingMachine.txt"); //hard coded since we only want these menu items
 		VendingMachine myVM = new VendingMachine();
-		try(Scanner scanMyFile = new Scanner(vendingMachine)){
+		try(Scanner scanMyFile = new Scanner(vendingMachineFile)){
 			while(scanMyFile.hasNextLine()){
 				String line = scanMyFile.nextLine();
 				String [] productsFromFile = line.split("\\|");
