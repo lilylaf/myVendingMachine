@@ -71,11 +71,7 @@ public class VendingMachine {
     //method checking user button selection
     public Product buttonSelection(String userInput){ //unit test WIP
         try {
-            if(userInput.toUpperCase().equals(mapOfProducts.get(userInput))){
                 return mapOfProducts.get(userInput.toUpperCase());
-            } else {
-               System.out.println("Please enter a valid selection");
-            }
         } catch (Exception e) { //is there a way to do this without stopping our program all together?
             System.out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
             System.out.println("Your total balance is:  $" + String.format("%.2f", userBalance));
@@ -90,6 +86,8 @@ public class VendingMachine {
 
     //method selecting item
     public void selectProduct(String userInput){ //unit test WIP
+        //product p = buttonselection userinput
+            //check for null,
         if (buttonSelection(userInput).getQuantity() == 0){  //product sold out
                 System.out.println("SOLD OUT");
         } else if (buttonSelection((userInput)).getPrice().compareTo(userBalance) == -1 ||
@@ -154,4 +152,6 @@ public class VendingMachine {
         }
         return s;
     }
+
+    //todo create a print class (void) to print things intread out doing an sout
 }

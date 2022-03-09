@@ -63,12 +63,12 @@ public class VendingMachineCLI {
 		}
 	}
 
+	//todo add these methods to the vending machine class, make the constructor call them, and add a parameter in theser methods for the file path as a stribg
 	//create and write audit file
 	public static void writeAuditFile(String auditString){ //unit test WIP
 		File auditFile = new File("exampleFiles/AuditFile.txt");
 		try(PrintWriter pw = new PrintWriter(auditFile)) {
 			pw.print(auditString);
-			pw.close(); //we aren't using this, so how is the pw closing?
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
